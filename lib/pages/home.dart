@@ -1,10 +1,16 @@
 import 'package:ecommerce_getx/const.dart';
+import 'package:ecommerce_getx/controllers/app_controller.dart';
 import 'package:ecommerce_getx/pages/cart.dart';
 import 'package:ecommerce_getx/pages/product_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../widgets/shoppingcart_button.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  AppController appController = Get.find<AppController>();
 
   @override
   Widget build(BuildContext context) {
@@ -12,41 +18,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("E-Commerce"),
         actions: [
-          // TODO: replace with cart icon button widget
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: () {
-                  // TODO : navigate to cart page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartPage(),
-                    ),
-                  );
-                },
-              ),
-              Positioned(
-                right: 1,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  // TODO : update item count in cart
-                  child: Text(
-                    '${listCart.length}',
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )
+          // shopping cart icon button widget
+          ShoppingCartButton(appController: appController)
         ],
       ),
       body: GridView.builder(
@@ -61,11 +34,10 @@ class HomePage extends StatelessWidget {
           return LayoutBuilder(builder: (context, constraints) {
             return InkWell(
               onTap: () {
-                // TODO : navigate to product detail page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetailPage(product: listProduct[index]),
+                //   navigate to product detail page
+                Get.to(
+                  () => ProductDetailPage(
+                    product: listProduct[index],
                   ),
                 );
               },

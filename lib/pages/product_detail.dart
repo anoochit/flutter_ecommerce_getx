@@ -1,10 +1,17 @@
 import 'package:ecommerce_getx/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/app_controller.dart';
+import '../models/cart.dart';
+import '../widgets/shoppingcart_button.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({Key? key, required this.product}) : super(key: key);
+  ProductDetailPage({Key? key, required this.product}) : super(key: key);
 
   final Product product;
+
+  final AppController appController = Get.find<AppController>();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +19,8 @@ class ProductDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('${product.title}'),
         actions: [
-          // TODO : place cart icon button widget
+          // shopping cart icon button widget
+          ShoppingCartButton(appController: appController)
         ],
       ),
       body: SingleChildScrollView(
@@ -58,6 +66,12 @@ class ProductDetailPage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         // TODO : add product to cart
+                        appController.addItemToCart(
+                          Cart(
+                            productId: product.id,
+                            quantity: 1,
+                          ),
+                        );
                       },
                       child: const Text("Add to cart"),
                     ),
